@@ -1,4 +1,9 @@
+<?php 
 
+require_once("conn.php");
+$data = $conn->query("SELECT * FROM task");
+
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -17,7 +22,7 @@
 		<form method="POST" action="insert.php" class="form-inline" id="user_form">
 		 
 		  <div class="form-group mx-sm-3 mb-2">
-		    <label for="inputPassword2" class="sr-only">create</label>
+		    <label for="mytask" class="sr-only">create</label>
 		    <input name="mytask" type="text" class="form-control" id="task" placeholder="enter task">
 		  </div>
 		   
@@ -34,14 +39,14 @@
 		    </tr>
 		  </thead>
 		  <tbody>
+            <?php while($rows = $data->fetch(PDO::FETCH_OBJ)): ?>
 		    <tr>
-		   
-		     <td>1</td>
-		     <td>Working out</td>
-		     <td><a href="delete.php?del_id=1" class="btn btn-danger">delete</a></td>
-				<td><a href="update.php?upd_id=1" class="btn btn-warning">update</a></td>
+		     <td><?= $rows->task_id ?></td>
+		     <td><?= $rows->name ?></td>
+		     <td><a href="delete.php?task_id=<?= $rows->task_id ?>" class="btn btn-danger">delete</a></td>
+				<td><a href="update.php?task_id=<?= $rows->task_id ?>" class="btn btn-warning">update</a></td>
 		    </tr>
-
+            <?php endwhile; ?>
 
 		  </tbody>
 		</table>
